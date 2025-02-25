@@ -1679,6 +1679,14 @@ function _Chat() {
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
 
+  useEffect(() => {
+    const userInput = localStorage.getItem("userInput");
+    if (userInput) {
+      doSubmit(userInput);
+      localStorage.removeItem("userInput");
+    }
+  }, []);
+
   return (
     <>
       <div className={styles.chat} key={session.id}>

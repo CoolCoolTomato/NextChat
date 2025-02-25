@@ -10,13 +10,13 @@ import CslgIcon from "../icons/cslg.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Mask, useMaskStore } from "../store/mask";
 import Locale from "../locales";
-import { useAppConfig, useChatStore } from "../store";
+import { useAppConfig, useChatStore, SubmitKey } from "../store";
 import { MaskAvatar } from "./mask";
 import { useCommand } from "../command";
 // 获取默认的mask
 import { BUILTIN_MASK_STORE } from "../masks";
 import clsx from "clsx";
-
+import SendWhiteIcon from "../icons/send-white.svg";
 function MaskItem(props: { mask: Mask; onClick?: () => void }) {
   return (
     <div className={styles["mask"]} onClick={props.onClick}>
@@ -73,6 +73,53 @@ function useMaskGroup(masks: Mask[]) {
   return groups;
 }
 
+function useSubmitHandler() {
+  const config = useAppConfig();
+  const submitKey = config.submitKey;
+  const isComposing = useRef(false);
+
+  useEffect(() => {
+    const onCompositionStart = () => {
+      isComposing.current = true;
+    };
+    const onCompositionEnd = () => {
+      isComposing.current = false;
+    };
+
+    window.addEventListener("compositionstart", onCompositionStart);
+    window.addEventListener("compositionend", onCompositionEnd);
+
+    return () => {
+      window.removeEventListener("compositionstart", onCompositionStart);
+      window.removeEventListener("compositionend", onCompositionEnd);
+    };
+  }, []);
+
+  const shouldSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Fix Chinese input method "Enter" on Safari
+    if (e.keyCode == 229) return false;
+    if (e.key !== "Enter") return false;
+    if (e.key === "Enter" && (e.nativeEvent.isComposing || isComposing.current))
+      return false;
+    return (
+      (config.submitKey === SubmitKey.AltEnter && e.altKey) ||
+      (config.submitKey === SubmitKey.CtrlEnter && e.ctrlKey) ||
+      (config.submitKey === SubmitKey.ShiftEnter && e.shiftKey) ||
+      (config.submitKey === SubmitKey.MetaEnter && e.metaKey) ||
+      (config.submitKey === SubmitKey.Enter &&
+        !e.altKey &&
+        !e.ctrlKey &&
+        !e.shiftKey &&
+        !e.metaKey)
+    );
+  };
+
+  return {
+    submitKey,
+    shouldSubmit,
+  };
+}
+
 export function NewChat() {
   const chatStore = useChatStore();
   const maskStore = useMaskStore();
@@ -92,6 +139,36 @@ export function NewChat() {
       chatStore.newSession(mask);
       navigate(Path.Chat);
     }, 10);
+  };
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [userInput, setUserInput] = useState("");
+  const { submitKey, shouldSubmit } = useSubmitHandler();
+  const doSubmit = (userInput: string) => {
+    setTimeout(() => {
+      chatStore.newSession();
+      localStorage.setItem("userInput", userInput);
+      navigate(Path.Chat);
+    }, 10);
+  };
+  const onInput = (text: string) => {
+    setUserInput(text);
+  };
+
+  const onInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // if ArrowUp and no userInput, fill with last input
+    if (
+      e.key === "ArrowUp" &&
+      userInput.length <= 0 &&
+      !(e.metaKey || e.altKey || e.ctrlKey)
+    ) {
+      setUserInput(chatStore.lastInput ?? "");
+      e.preventDefault();
+      return;
+    }
+    if (shouldSubmit(e)) {
+      doSubmit(userInput);
+      e.preventDefault();
+    }
   };
 
   useCommand({
@@ -183,6 +260,34 @@ export function NewChat() {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className={styles["chat-input-panel"]}>
+        <label
+          className={clsx(styles["chat-input-panel-inner"])}
+          htmlFor="chat-input"
+        >
+          <textarea
+            id="chat-input"
+            ref={inputRef}
+            className={styles["chat-input"]}
+            placeholder={Locale.Chat.Input(submitKey)}
+            onInput={(e) => onInput(e.currentTarget.value)}
+            onKeyDown={onInputKeyDown}
+            value={userInput}
+            style={{
+              fontSize: config.fontSize,
+              fontFamily: config.fontFamily,
+            }}
+          />
+          <IconButton
+            icon={<SendWhiteIcon />}
+            // text={Locale.Chat.Send}
+            className={styles["chat-input-send"]}
+            type="primary"
+            onClick={() => doSubmit(userInput)}
+          />
+        </label>
       </div>
     </div>
   );
