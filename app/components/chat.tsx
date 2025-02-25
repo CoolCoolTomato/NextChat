@@ -2040,12 +2040,12 @@ function _Chat() {
                 })}
             </div>
             <div className={styles["chat-input-panel"]}>
-              <PromptHints
+              {/* <PromptHints
                 prompts={promptHints}
                 onPromptSelect={onPromptSelect}
-              />
+              /> */}
 
-              <ChatActions
+              {/* <ChatActions
                 uploadImage={uploadImage}
                 setAttachImages={setAttachImages}
                 setUploading={setUploading}
@@ -2067,7 +2067,7 @@ function _Chat() {
                 setShowShortcutKeyModal={setShowShortcutKeyModal}
                 setUserInput={setUserInput}
                 setShowChatSidePanel={setShowChatSidePanel}
-              />
+              /> */}
               <label
                 className={clsx(styles["chat-input-panel-inner"], {
                   [styles["chat-input-panel-inner-attach"]]:
@@ -2118,7 +2118,7 @@ function _Chat() {
                 )}
                 <IconButton
                   icon={<SendWhiteIcon />}
-                  text={Locale.Chat.Send}
+                  // text={Locale.Chat.Send}
                   className={styles["chat-input-send"]}
                   type="primary"
                   onClick={() => doSubmit(userInput)}
