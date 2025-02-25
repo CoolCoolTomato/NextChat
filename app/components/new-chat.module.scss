@@ -41,6 +41,18 @@
     }
   }
 
+  .logo {
+    width: 150px;
+    height: 150px;
+    margin-top: 50px;
+    display: inline-flex;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
   .title {
     font-size: 32px;
     font-weight: bolder;
@@ -72,52 +84,61 @@
     align-items: center;
     padding-top: 20px;
 
-    $linear: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0)
-    );
+    // $linear: linear-gradient(
+    //   to bottom,
+    //   rgba(0, 0, 0, 0),
+    //   rgba(0, 0, 0, 1),
+    //   rgba(0, 0, 0, 0)
+    // );
 
-    -webkit-mask-image: $linear;
-    mask-image: $linear;
+    // -webkit-mask-image: $linear;
+    // mask-image: $linear;
 
     animation: slide-in ease 0.5s;
 
     .mask-row {
       display: flex;
-      // justify-content: center;
+      justify-content: center;
       margin-bottom: 10px;
 
-      @for $i from 1 to 10 {
-        &:nth-child(#{$i * 2}) {
-          margin-left: 50px;
-        }
-      }
+      // @for $i from 1 to 10 {
+      //   &:nth-child(#{$i * 2}) {
+      //     margin-left: 50px;
+      //   }
+      // }
 
-      .mask {
+      .mask-box {
+        width: 60%;
         display: flex;
-        align-items: center;
-        padding: 10px 14px;
-        border: var(--border-in-light);
-        box-shadow: var(--card-shadow);
-        background-color: var(--white);
-        border-radius: 10px;
-        margin-right: 10px;
-        max-width: 8em;
-        transform: scale(1);
-        cursor: pointer;
-        transition: all ease 0.3s;
+        justify-content: center;
+        margin-bottom: 10px;
+        position: relative;
+        flex-wrap: wrap;
 
-        &:hover {
-          transform: translateY(-5px) scale(1.1);
-          z-index: 999;
-          border-color: var(--primary);
-        }
-
-        .mask-name {
-          margin-left: 10px;
-          font-size: 14px;
+        .mask {
+          display: flex;
+          align-items: center;
+          padding: 10px 14px;
+          border: var(--border-in-light);
+          box-shadow: var(--card-shadow);
+          background-color: var(--white);
+          border-radius: 10px;
+          margin: 10px;
+          width: 10em;
+          transform: scale(1);
+          cursor: pointer;
+          transition: all ease 0.3s;
+  
+          &:hover {
+            transform: translateY(-5px) scale(1.1);
+            z-index: 999;
+            border-color: var(--primary);
+          }
+  
+          .mask-name {
+            margin-left: 10px;
+            font-size: 14px;
+          }
         }
       }
     }

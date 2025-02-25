@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Path, SlotID } from "../constant";
 import { IconButton } from "./button";
-import { EmojiAvatar } from "./emoji";
+// import { EmojiAvatar } from "./emoji";
 import styles from "./new-chat.module.scss";
 
-import LeftIcon from "../icons/left.svg";
 import LightningIcon from "../icons/lightning.svg";
-import EyeIcon from "../icons/eye.svg";
+import CslgIcon from "../icons/cslg.svg";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { Mask, useMaskStore } from "../store/mask";
@@ -14,7 +13,7 @@ import Locale from "../locales";
 import { useAppConfig, useChatStore } from "../store";
 import { MaskAvatar } from "./mask";
 import { useCommand } from "../command";
-import { showConfirm } from "./ui-lib";
+// 获取默认的mask
 import { BUILTIN_MASK_STORE } from "../masks";
 import clsx from "clsx";
 
@@ -115,7 +114,7 @@ export function NewChat() {
 
   return (
     <div className={styles["new-chat"]}>
-      <div className={styles["mask-header"]}>
+      {/* <div className={styles["mask-header"]}>
         <IconButton
           icon={<LeftIcon />}
           text={Locale.NewChat.Return}
@@ -134,8 +133,11 @@ export function NewChat() {
             }}
           ></IconButton>
         )}
+      </div> */}
+      <div className={clsx(styles["logo"], "no-dark")}>
+        <CslgIcon />
       </div>
-      <div className={styles["mask-cards"]}>
+      {/* <div className={styles["mask-cards"]}>
         <div className={styles["mask-card"]}>
           <EmojiAvatar avatar="1f606" size={24} />
         </div>
@@ -145,19 +147,19 @@ export function NewChat() {
         <div className={styles["mask-card"]}>
           <EmojiAvatar avatar="1f479" size={24} />
         </div>
-      </div>
+      </div> */}
 
       <div className={styles["title"]}>{Locale.NewChat.Title}</div>
       <div className={styles["sub-title"]}>{Locale.NewChat.SubTitle}</div>
 
       <div className={styles["actions"]}>
-        <IconButton
+        {/* <IconButton
           text={Locale.NewChat.More}
           onClick={() => navigate(Path.Masks)}
           icon={<EyeIcon />}
           bordered
           shadow
-        />
+        /> */}
 
         <IconButton
           text={Locale.NewChat.Skip}
@@ -170,8 +172,8 @@ export function NewChat() {
       </div>
 
       <div className={styles["masks"]} ref={maskRef}>
-        {groups.map((masks, i) => (
-          <div key={i} className={styles["mask-row"]}>
+        <div className={styles["mask-row"]}>
+          <div className={styles["mask-box"]}>
             {masks.map((mask, index) => (
               <MaskItem
                 key={index}
@@ -180,7 +182,7 @@ export function NewChat() {
               />
             ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
