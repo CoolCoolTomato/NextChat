@@ -4,7 +4,7 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
-import ChatGptIcon from "../icons/chatgpt.svg";
+import ChatGptIcon from "../icons/cslg.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import DragIcon from "../icons/drag.svg";
@@ -186,7 +186,7 @@ export function SideBarHeader(props: {
           </div>
           <div className={styles["sidebar-sub-title"]}>{subTitle}</div>
         </div>
-        {/* <div className={clsx(styles["sidebar-logo"], "no-dark")}>{logo}</div> */}
+        <div className={clsx(styles["sidebar-logo"], "no-dark")}>{logo}</div>
       </div>
       {children}
     </Fragment>

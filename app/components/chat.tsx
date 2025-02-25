@@ -12,7 +12,6 @@ import React, {
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
 import RenameIcon from "../icons/rename.svg";
-import EditIcon from "../icons/rename.svg";
 import ExportIcon from "../icons/share.svg";
 import ReturnIcon from "../icons/return.svg";
 import CopyIcon from "../icons/copy.svg";
@@ -95,7 +94,6 @@ import {
   Modal,
   Selector,
   showConfirm,
-  showPrompt,
   showToast,
 } from "./ui-lib";
 import { useNavigate } from "react-router-dom";
@@ -109,14 +107,14 @@ import {
   UNFINISHED_INPUT,
 } from "../constant";
 import { Avatar } from "./emoji";
-import { ContextPrompts, MaskAvatar, MaskConfig } from "./mask";
+import { ContextPrompts, MaskConfig } from "./mask";
 import { useMaskStore } from "../store/mask";
 import { ChatCommandPrefix, useChatCommand, useCommand } from "../command";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
 import { getClientConfig } from "../config/client";
 import { useAllModels } from "../utils/hooks";
-import { ClientApi, MultimodalContent } from "../client/api";
+import { ClientApi } from "../client/api";
 import { createTTSPlayer } from "../utils/audio";
 import { MsEdgeTTS, OUTPUT_FORMAT } from "../utils/ms_edge_tts";
 
@@ -1770,11 +1768,11 @@ function _Chat() {
             )}
           </div>
 
-          <PromptToast
+          {/* <PromptToast
             showToast={!hitBottom}
             showModal={showPromptModal}
             setShowModal={setShowPromptModal}
-          />
+          /> */}
         </div>
         <div className={styles["chat-main"]}>
           <div className={styles["chat-body-container"]}>
@@ -1812,235 +1810,243 @@ function _Chat() {
                             : styles["chat-message"]
                         }
                       >
-                        <div className={styles["chat-message-container"]}>
-                          <div className={styles["chat-message-header"]}>
-                            <div className={styles["chat-message-avatar"]}>
-                              <div className={styles["chat-message-edit"]}>
-                                <IconButton
-                                  icon={<EditIcon />}
-                                  aria={Locale.Chat.Actions.Edit}
-                                  onClick={async () => {
-                                    const newMessage = await showPrompt(
-                                      Locale.Chat.Actions.Edit,
-                                      getMessageTextContent(message),
-                                      10,
-                                    );
-                                    let newContent:
-                                      | string
-                                      | MultimodalContent[] = newMessage;
-                                    const images = getMessageImages(message);
-                                    if (images.length > 0) {
-                                      newContent = [
-                                        { type: "text", text: newMessage },
-                                      ];
-                                      for (let i = 0; i < images.length; i++) {
-                                        newContent.push({
-                                          type: "image_url",
-                                          image_url: {
-                                            url: images[i],
-                                          },
-                                        });
-                                      }
+                        {" "}
+                        {!isContext && (
+                          <div className={styles["chat-message-container"]}>
+                            <div className={styles["chat-message-header"]}>
+                              <div className={styles["chat-message-avatar"]}>
+                                {/* <div className={styles["chat-message-edit"]}>
+                              <IconButton
+                                icon={<EditIcon />}
+                                aria={Locale.Chat.Actions.Edit}
+                                onClick={async () => {
+                                  const newMessage = await showPrompt(
+                                    Locale.Chat.Actions.Edit,
+                                    getMessageTextContent(message),
+                                    10,
+                                  );
+                                  let newContent:
+                                    | string
+                                    | MultimodalContent[] = newMessage;
+                                  const images = getMessageImages(message);
+                                  if (images.length > 0) {
+                                    newContent = [
+                                      { type: "text", text: newMessage },
+                                    ];
+                                    for (let i = 0; i < images.length; i++) {
+                                      newContent.push({
+                                        type: "image_url",
+                                        image_url: {
+                                          url: images[i],
+                                        },
+                                      });
                                     }
-                                    chatStore.updateTargetSession(
-                                      session,
-                                      (session) => {
-                                        const m = session.mask.context
-                                          .concat(session.messages)
-                                          .find((m) => m.id === message.id);
-                                        if (m) {
-                                          m.content = newContent;
-                                        }
-                                      },
-                                    );
-                                  }}
-                                ></IconButton>
-                              </div>
-                              {isUser ? (
-                                <Avatar avatar={config.avatar} />
-                              ) : (
-                                <>
-                                  {["system"].includes(message.role) ? (
-                                    <Avatar avatar="2699-fe0f" />
-                                  ) : (
-                                    <MaskAvatar
-                                      avatar={session.mask.avatar}
-                                      model={
-                                        message.model ||
-                                        session.mask.modelConfig.model
+                                  }
+                                  chatStore.updateTargetSession(
+                                    session,
+                                    (session) => {
+                                      const m = session.mask.context
+                                        .concat(session.messages)
+                                        .find((m) => m.id === message.id);
+                                      if (m) {
+                                        m.content = newContent;
                                       }
-                                    />
-                                  )}
-                                </>
+                                    },
+                                  );
+                                }}
+                              ></IconButton>
+                            </div> */}
+                                {isUser ? (
+                                  <Avatar avatar={config.avatar} />
+                                ) : (
+                                  <>
+                                    {["system"].includes(message.role) ? (
+                                      <Avatar avatar="2699-fe0f" />
+                                    ) : (
+                                      <img
+                                        className={clsx(styles["mask-img"])}
+                                        src={session.mask.icon}
+                                        alt=""
+                                      />
+                                      // <MaskAvatar
+                                      //   avatar={session.mask.avatar}
+                                      //   model={
+                                      //     message.model ||
+                                      //     session.mask.modelConfig.model
+                                      //   }
+                                      // />
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                              {!isUser && (
+                                <div className={styles["chat-model-name"]}>
+                                  {session.mask.name}
+                                </div>
                               )}
-                            </div>
-                            {!isUser && (
-                              <div className={styles["chat-model-name"]}>
-                                {message.model}
-                              </div>
-                            )}
 
-                            {showActions && (
-                              <div className={styles["chat-message-actions"]}>
-                                <div className={styles["chat-input-actions"]}>
-                                  {message.streaming ? (
-                                    <ChatAction
-                                      text={Locale.Chat.Actions.Stop}
-                                      icon={<StopIcon />}
-                                      onClick={() =>
-                                        onUserStop(message.id ?? i)
-                                      }
-                                    />
-                                  ) : (
-                                    <>
+                              {showActions && (
+                                <div className={styles["chat-message-actions"]}>
+                                  <div className={styles["chat-input-actions"]}>
+                                    {message.streaming ? (
                                       <ChatAction
-                                        text={Locale.Chat.Actions.Retry}
-                                        icon={<ResetIcon />}
-                                        onClick={() => onResend(message)}
-                                      />
-
-                                      <ChatAction
-                                        text={Locale.Chat.Actions.Delete}
-                                        icon={<DeleteIcon />}
+                                        text={Locale.Chat.Actions.Stop}
+                                        icon={<StopIcon />}
                                         onClick={() =>
-                                          onDelete(message.id ?? i)
+                                          onUserStop(message.id ?? i)
                                         }
                                       />
-
-                                      <ChatAction
-                                        text={Locale.Chat.Actions.Pin}
-                                        icon={<PinIcon />}
-                                        onClick={() => onPinMessage(message)}
-                                      />
-                                      <ChatAction
-                                        text={Locale.Chat.Actions.Copy}
-                                        icon={<CopyIcon />}
-                                        onClick={() =>
-                                          copyToClipboard(
-                                            getMessageTextContent(message),
-                                          )
-                                        }
-                                      />
-                                      {config.ttsConfig.enable && (
+                                    ) : (
+                                      <>
                                         <ChatAction
-                                          text={
-                                            speechStatus
-                                              ? Locale.Chat.Actions.StopSpeech
-                                              : Locale.Chat.Actions.Speech
-                                          }
-                                          icon={
-                                            speechStatus ? (
-                                              <SpeakStopIcon />
-                                            ) : (
-                                              <SpeakIcon />
-                                            )
-                                          }
+                                          text={Locale.Chat.Actions.Retry}
+                                          icon={<ResetIcon />}
+                                          onClick={() => onResend(message)}
+                                        />
+
+                                        <ChatAction
+                                          text={Locale.Chat.Actions.Delete}
+                                          icon={<DeleteIcon />}
                                           onClick={() =>
-                                            openaiSpeech(
+                                            onDelete(message.id ?? i)
+                                          }
+                                        />
+
+                                        <ChatAction
+                                          text={Locale.Chat.Actions.Pin}
+                                          icon={<PinIcon />}
+                                          onClick={() => onPinMessage(message)}
+                                        />
+                                        <ChatAction
+                                          text={Locale.Chat.Actions.Copy}
+                                          icon={<CopyIcon />}
+                                          onClick={() =>
+                                            copyToClipboard(
                                               getMessageTextContent(message),
                                             )
                                           }
                                         />
-                                      )}
-                                    </>
-                                  )}
+                                        {config.ttsConfig.enable && (
+                                          <ChatAction
+                                            text={
+                                              speechStatus
+                                                ? Locale.Chat.Actions.StopSpeech
+                                                : Locale.Chat.Actions.Speech
+                                            }
+                                            icon={
+                                              speechStatus ? (
+                                                <SpeakStopIcon />
+                                              ) : (
+                                                <SpeakIcon />
+                                              )
+                                            }
+                                            onClick={() =>
+                                              openaiSpeech(
+                                                getMessageTextContent(message),
+                                              )
+                                            }
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
                                 </div>
+                              )}
+                            </div>
+                            {message?.tools?.length == 0 && showTyping && (
+                              <div className={styles["chat-message-status"]}>
+                                {Locale.Chat.Typing}
                               </div>
                             )}
-                          </div>
-                          {message?.tools?.length == 0 && showTyping && (
-                            <div className={styles["chat-message-status"]}>
-                              {Locale.Chat.Typing}
-                            </div>
-                          )}
-                          {/*@ts-ignore*/}
-                          {message?.tools?.length > 0 && (
-                            <div className={styles["chat-message-tools"]}>
-                              {message?.tools?.map((tool) => (
-                                <div
-                                  key={tool.id}
-                                  title={tool?.errorMsg}
-                                  className={styles["chat-message-tool"]}
-                                >
-                                  {tool.isError === false ? (
-                                    <ConfirmIcon />
-                                  ) : tool.isError === true ? (
-                                    <CloseIcon />
-                                  ) : (
-                                    <LoadingButtonIcon />
-                                  )}
-                                  <span>{tool?.function?.name}</span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          <div className={styles["chat-message-item"]}>
-                            <Markdown
-                              key={message.streaming ? "loading" : "done"}
-                              content={getMessageTextContent(message)}
-                              loading={
-                                (message.preview || message.streaming) &&
-                                message.content.length === 0 &&
-                                !isUser
-                              }
-                              //   onContextMenu={(e) => onRightClick(e, message)} // hard to use
-                              onDoubleClickCapture={() => {
-                                if (!isMobileScreen) return;
-                                setUserInput(getMessageTextContent(message));
-                              }}
-                              fontSize={fontSize}
-                              fontFamily={fontFamily}
-                              parentRef={scrollRef}
-                              defaultShow={i >= messages.length - 6}
-                            />
-                            {getMessageImages(message).length == 1 && (
-                              <img
-                                className={styles["chat-message-item-image"]}
-                                src={getMessageImages(message)[0]}
-                                alt=""
-                              />
+                            {/*@ts-ignore*/}
+                            {message?.tools?.length > 0 && (
+                              <div className={styles["chat-message-tools"]}>
+                                {message?.tools?.map((tool) => (
+                                  <div
+                                    key={tool.id}
+                                    title={tool?.errorMsg}
+                                    className={styles["chat-message-tool"]}
+                                  >
+                                    {tool.isError === false ? (
+                                      <ConfirmIcon />
+                                    ) : tool.isError === true ? (
+                                      <CloseIcon />
+                                    ) : (
+                                      <LoadingButtonIcon />
+                                    )}
+                                    <span>{tool?.function?.name}</span>
+                                  </div>
+                                ))}
+                              </div>
                             )}
-                            {getMessageImages(message).length > 1 && (
-                              <div
-                                className={styles["chat-message-item-images"]}
-                                style={
-                                  {
-                                    "--image-count":
-                                      getMessageImages(message).length,
-                                  } as React.CSSProperties
+                            <div className={styles["chat-message-item"]}>
+                              <Markdown
+                                key={message.streaming ? "loading" : "done"}
+                                content={getMessageTextContent(message)}
+                                loading={
+                                  (message.preview || message.streaming) &&
+                                  message.content.length === 0 &&
+                                  !isUser
                                 }
-                              >
-                                {getMessageImages(message).map(
-                                  (image, index) => {
-                                    return (
-                                      <img
-                                        className={
-                                          styles[
-                                            "chat-message-item-image-multi"
-                                          ]
-                                        }
-                                        key={index}
-                                        src={image}
-                                        alt=""
-                                      />
-                                    );
-                                  },
-                                )}
+                                //   onContextMenu={(e) => onRightClick(e, message)} // hard to use
+                                onDoubleClickCapture={() => {
+                                  if (!isMobileScreen) return;
+                                  setUserInput(getMessageTextContent(message));
+                                }}
+                                fontSize={fontSize}
+                                fontFamily={fontFamily}
+                                parentRef={scrollRef}
+                                defaultShow={i >= messages.length - 6}
+                              />
+                              {getMessageImages(message).length == 1 && (
+                                <img
+                                  className={styles["chat-message-item-image"]}
+                                  src={getMessageImages(message)[0]}
+                                  alt=""
+                                />
+                              )}
+                              {getMessageImages(message).length > 1 && (
+                                <div
+                                  className={styles["chat-message-item-images"]}
+                                  style={
+                                    {
+                                      "--image-count":
+                                        getMessageImages(message).length,
+                                    } as React.CSSProperties
+                                  }
+                                >
+                                  {getMessageImages(message).map(
+                                    (image, index) => {
+                                      return (
+                                        <img
+                                          className={
+                                            styles[
+                                              "chat-message-item-image-multi"
+                                            ]
+                                          }
+                                          key={index}
+                                          src={image}
+                                          alt=""
+                                        />
+                                      );
+                                    },
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                            {message?.audio_url && (
+                              <div className={styles["chat-message-audio"]}>
+                                <audio src={message.audio_url} controls />
                               </div>
                             )}
-                          </div>
-                          {message?.audio_url && (
-                            <div className={styles["chat-message-audio"]}>
-                              <audio src={message.audio_url} controls />
-                            </div>
-                          )}
 
-                          <div className={styles["chat-message-action-date"]}>
-                            {isContext
-                              ? Locale.Chat.IsContext
-                              : message.date.toLocaleString()}
+                            <div className={styles["chat-message-action-date"]}>
+                              {isContext
+                                ? Locale.Chat.IsContext
+                                : message.date.toLocaleString()}
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                       {shouldShowClearContextDivider && <ClearContextDivider />}
                     </Fragment>
