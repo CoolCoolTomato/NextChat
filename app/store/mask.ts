@@ -38,6 +38,8 @@ export const createEmptyMask = () =>
   ({
     id: nanoid(),
     avatar: DEFAULT_MASK_AVATAR,
+    icon: "/icons/cslg.svg",
+    description: "",
     name: DEFAULT_TOPIC,
     context: [],
     syncGlobalConfig: true, // use global config as default
