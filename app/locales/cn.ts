@@ -767,6 +767,7 @@ const cn = {
     Title: "Chat CSUST",
     SubTitle: "长沙理工大学大模型应用平台",
     More: "查看全部",
+    Agent: "GPT应用",
   },
 
   URLCommand: {

@@ -11,7 +11,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Mask, useMaskStore } from "../store/mask";
 import Locale from "../locales";
 import { useAppConfig, useChatStore, SubmitKey } from "../store";
-import { MaskAvatar } from "./mask";
 import { useCommand } from "../command";
 // 获取默认的mask
 import { BUILTIN_MASK_STORE } from "../masks";
@@ -20,12 +19,10 @@ import SendWhiteIcon from "../icons/send-white.svg";
 function MaskItem(props: { mask: Mask; onClick?: () => void }) {
   return (
     <div className={styles["mask"]} onClick={props.onClick}>
-      <MaskAvatar
-        avatar={props.mask.avatar}
-        model={props.mask.modelConfig.model}
-      />
+      <img className={clsx(styles["mask-img"])} src={props.mask.icon} alt="" />
       <div className={clsx(styles["mask-name"], "one-line")}>
-        {props.mask.name}
+        <h2 className={clsx(styles["mask-name-h2"])}>{props.mask.name}</h2>
+        <p className={clsx(styles["mask-name-p"])}>{props.mask.description}</p>
       </div>
     </div>
   );
@@ -140,6 +137,13 @@ export function NewChat() {
       navigate(Path.Chat);
     }, 10);
   };
+
+  const toMasks = () => {
+    setTimeout(() => {
+      navigate(Path.Masks);
+    }, 10);
+  };
+
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
   const { submitKey, shouldSubmit } = useSubmitHandler();
@@ -239,8 +243,8 @@ export function NewChat() {
         /> */}
 
         <IconButton
-          text={Locale.NewChat.Skip}
-          onClick={() => startChat()}
+          text={Locale.NewChat.Agent}
+          onClick={() => toMasks()}
           icon={<LightningIcon />}
           type="primary"
           shadow

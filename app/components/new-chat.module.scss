@@ -108,7 +108,7 @@
       // }
 
       .mask-box {
-        width: 60%;
+        width: 80%;
         display: flex;
         justify-content: center;
         margin-bottom: 10px;
@@ -124,7 +124,7 @@
           background-color: var(--white);
           border-radius: 10px;
           margin: 10px;
-          width: 10em;
+          width: 15em;
           transform: scale(1);
           cursor: pointer;
           transition: all ease 0.3s;
@@ -135,9 +135,23 @@
             border-color: var(--primary);
           }
   
+          .mask-img {
+            width: 50px;
+            height: 50px;
+          }
+
           .mask-name {
             margin-left: 10px;
-            font-size: 14px;
+
+            .mask-name-h2 {
+              font-size: 18px;
+              color: var(--primary);
+              line-height: 10px;
+            }
+
+            .mask-name-p {
+              font-size: 14px;
+            }
           }
         }
       }
@@ -262,5 +276,22 @@
     right: 60px;
     bottom: 60px;
     border-radius: 35%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .new-chat {
+    .chat-input-panel {
+      height: 150px;
+      padding: 30px;
+    }
+    .chat-input {
+      font-size: 16px;
+    }
+  
+    .chat-input-send {
+      right: 40px;
+      bottom: 35px;
+    }
   }
 }

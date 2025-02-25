@@ -11,6 +11,8 @@ export type Mask = {
   createdAt: number;
   avatar: string;
   name: string;
+  description: string;
+  icon: string;
   hideContext?: boolean;
   context: ChatMessage[];
   syncGlobalConfig?: boolean;
@@ -101,7 +103,7 @@ export const useMaskStore = createPersistStore(
             },
           }) as Mask,
       );
-      return userMasks.concat(buildinMasks);
+      return buildinMasks;
     },
     search(text: string) {
       return Object.values(get().masks);
