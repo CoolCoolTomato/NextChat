@@ -771,6 +771,7 @@ const en: LocaleType = {
     },
   },
   NewChat: {
+    Agent: "Agent",
     Return: "Return",
     Skip: "Just Start",
     Title: "Pick a Mask",
