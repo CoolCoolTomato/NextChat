@@ -713,9 +713,9 @@ const cn = {
   Mask: {
     Name: "面具",
     Page: {
-      Title: "预设角色面具",
-      SubTitle: (count: number) => `${count} 个预设角色定义`,
-      Search: "搜索角色面具",
+      Title: "GPT应用列表",
+      SubTitle: (count: number) => `${count} 个GPT应用`,
+      Search: "搜索GPT应用",
       Create: "新建",
     },
     Item: {

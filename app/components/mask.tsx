@@ -4,12 +4,9 @@ import { ErrorBoundary } from "./error";
 import styles from "./mask.module.scss";
 
 import DownloadIcon from "../icons/download.svg";
-import UploadIcon from "../icons/upload.svg";
-import EditIcon from "../icons/edit.svg";
 import AddIcon from "../icons/add.svg";
 import CloseIcon from "../icons/close.svg";
 import DeleteIcon from "../icons/delete.svg";
-import EyeIcon from "../icons/eye.svg";
 import CopyIcon from "../icons/copy.svg";
 import DragIcon from "../icons/drag.svg";
 
@@ -511,7 +508,7 @@ export function MaskPage() {
           </div>
 
           <div className="window-actions">
-            <div className="window-action-button">
+            {/* <div className="window-action-button">
               <IconButton
                 icon={<DownloadIcon />}
                 bordered
@@ -526,7 +523,7 @@ export function MaskPage() {
                 bordered
                 onClick={() => importFromFile()}
               />
-            </div>
+            </div> */}
             <div className="window-action-button">
               <IconButton
                 icon={<CloseIcon />}
@@ -568,7 +565,7 @@ export function MaskPage() {
               ))}
             </Select>
 
-            <IconButton
+            {/* <IconButton
               className={styles["mask-create"]}
               icon={<AddIcon />}
               text={Locale.Mask.Page.Create}
@@ -577,7 +574,7 @@ export function MaskPage() {
                 const createdMask = maskStore.create();
                 setEditingMaskId(createdMask.id);
               }}
-            />
+            /> */}
           </div>
 
           <div>
@@ -585,14 +582,16 @@ export function MaskPage() {
               <div className={styles["mask-item"]} key={m.id}>
                 <div className={styles["mask-header"]}>
                   <div className={styles["mask-icon"]}>
-                    <MaskAvatar avatar={m.avatar} model={m.modelConfig.model} />
+                    <img
+                      className={clsx(styles["mask-img"])}
+                      src={m.icon}
+                      alt=""
+                    />
                   </div>
                   <div className={styles["mask-title"]}>
                     <div className={styles["mask-name"]}>{m.name}</div>
                     <div className={clsx(styles["mask-info"], "one-line")}>
-                      {`${Locale.Mask.Item.Info(m.context.length)} / ${
-                        ALL_LANG_OPTIONS[m.lang]
-                      } / ${m.modelConfig.model}`}
+                      {m.description}
                     </div>
                   </div>
                 </div>
@@ -605,7 +604,7 @@ export function MaskPage() {
                       navigate(Path.Chat);
                     }}
                   />
-                  {m.builtin ? (
+                  {/* {m.builtin ? (
                     <IconButton
                       icon={<EyeIcon />}
                       text={Locale.Mask.Item.View}
@@ -617,7 +616,7 @@ export function MaskPage() {
                       text={Locale.Mask.Item.Edit}
                       onClick={() => setEditingMaskId(m.id)}
                     />
-                  )}
+                  )} */}
                   {!m.builtin && (
                     <IconButton
                       icon={<DeleteIcon />}
