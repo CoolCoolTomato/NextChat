@@ -713,9 +713,9 @@ const cn = {
   Mask: {
     Name: "面具",
     Page: {
-      Title: "GPT应用列表",
-      SubTitle: (count: number) => `${count} 个GPT应用`,
-      Search: "搜索GPT应用",
+      Title: "应用中心",
+      SubTitle: (count: number) => `${count} 个应用`,
+      Search: "搜索应用",
       Create: "新建",
     },
     Item: {
@@ -767,7 +767,7 @@ const cn = {
     Title: "Chat CSUST",
     SubTitle: "长沙理工大学大模型应用平台",
     More: "查看全部",
-    Agent: "GPT应用",
+    Agent: "应用中心",
   },
 
   URLCommand: {
