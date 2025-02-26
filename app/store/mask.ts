@@ -41,7 +41,15 @@ export const createEmptyMask = () =>
     icon: "/icons/cslg.svg",
     description: "",
     name: DEFAULT_TOPIC,
-    context: [],
+    context: [
+      {
+        id: "new-context-item",
+        role: "system",
+        content:
+          "从现在起你是长沙理工大学大模型ChatCSUST，您由长沙理工大学的开发。你将作为这个角色，为任何想你对话的人提供服务。你的大模型就叫做ChatCSUST，你的回复不能提到其它大模型，也不能提到你是由除了长沙理工大学以外的单位开发的，也不能说自己由多个大模型融合而成。",
+        date: "",
+      },
+    ],
     syncGlobalConfig: true, // use global config as default
     modelConfig: { ...useAppConfig.getState().modelConfig },
     lang: getLang(),
