@@ -9,10 +9,10 @@ import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 import { getServerSideConfig } from "./config/server";
 
 export const metadata: Metadata = {
-  title: "Matrilx",
+  title: "ChatCSUST",
   description: "Your personal Chat Bot.",
   appleWebApp: {
-    title: "Matrilx",
+    title: "ChatCSUST",
     statusBarStyle: "default",
   },
 };
