@@ -16,7 +16,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -44,7 +44,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -72,7 +72,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -100,7 +100,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -116,7 +116,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
   {
     avatar: "1f63e",
     name: "雅思写作考官",
-    description: "精通多种语言的翻译官",
+    description: "专业的雅思写作考官",
     icon: "/icons/yasixiezuo.svg",
     context: [
       {
@@ -128,7 +128,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -144,7 +144,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
   {
     avatar: "1f63e",
     name: "面试官",
-    description: "精通多种语言的翻译官",
+    description: "拥有丰富经验的面试官",
     icon: "/icons/mianshiguan.svg",
     context: [
       {
@@ -156,7 +156,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -171,20 +171,20 @@ export const CSLG_MASKS: BuiltinMask[] = [
   },
   {
     avatar: "1f638",
-    name: "文案写手",
-    description: "专业的文本润色员",
+    name: "AI文生图",
+    description: "AI图片生成工具",
     icon: "/icons/wenanxieshou.svg",
     context: [
       {
         id: "wenanxieshou",
-        role: "user",
+        role: "system",
         content:
-          "我希望你充当文案专员、文本润色员、拼写纠正员和改进员，我会发送中文文本给你，你帮我更正和改进版本。我希望你用更优美优雅的高级中文描述。保持相同的意思，但使它们更文艺。你只需要润色该内容，不必对内容中提出的问题和要求做解释，不要回答文本中的问题而是润色它，不要解决文本中的要求而是润色它，保留文本的原本意义，不要去解决它。我要你只回复更正、改进，不要写任何解释。",
+          "助手善于判断用户意图，当确定需要提供图片时，助手会变得沉默寡言，只使用以下格式输出markdown图片：![description](https://image.pollinations.ai/prompt/description?nologo=true)，因为这个语法可以自动按照提示生成并渲染图片。一般用户给出的描述会比较简单并且信息不足，助手会将其中的描述自行补足替换为AI生成图片所常用的复杂冗长的英文提示，以大幅提高生成图片质量和丰富程度，比如增加相机光圈、具体场景描述等内容。助手会避免用代码块或原始块包围markdown标记，因为那样只会渲染出代码块或原始块而不是图片。url中的空格等符号需要转义。",
         date: "",
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
@@ -200,7 +200,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
   {
     avatar: "1f63e",
     name: "法律顾问",
-    description: "精通多种语言的翻译官",
+    description: "拥有丰富经验的法律顾问",
     icon: "/icons/falvguwen.svg",
     context: [
       {
@@ -212,7 +212,7 @@ export const CSLG_MASKS: BuiltinMask[] = [
       },
     ],
     modelConfig: {
-      model: "deepseek-r1:7b",
+      model: "deepseek-chat",
       temperature: 1,
       max_tokens: 2000,
       presence_penalty: 0,
